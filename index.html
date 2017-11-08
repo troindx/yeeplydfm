@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Yeeply DFM Creator</title>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/es.js"></script>
+    <script src="js/en.js"></script>
+    <script src="js/fr.js"></script>
+    <script src="js/it.js"></script>
+    <script src="js/de.js"></script>
+
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="http://www.alpacajs.org/lib/handlebars/handlebars.js"></script>
+    <script src="http://code.cloudcms.com/alpaca/1.5.23/bootstrap/alpaca.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="http://code.cloudcms.com/alpaca/1.5.23/bootstrap/alpaca.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+	<div id="form" class="container"></div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#form").alpaca({
+                    "schema": {
+                        "title":"Documento de funcionalidad mínima.",
+                        "description":"Vamos a crear proyectos!",
+                        "type":"object",
+                        "properties": {
+                            "name": {
+                                "type":"string",
+                                "title":"Nombre del proyecto"
+                            },
+                            "clientdescription": {
+                                "type":"string",
+                                "title":"Breve descripción del cliente"
+                            },
+                            "projectdescription": {
+                                "type":"string",
+                                "title":"Breve descripción del proyecto"
+                            },
+                            "connectrequire": {
+                                "type":"string",
+                                "title":"¿Debe el software conectarse a algo que ya ha sido realizado anteriormente? Describe la infraestuctura existente o déjalo en blanco si no debe conectarse a nada."
+                            },
+                            "developmentrequire": {
+                                "type":"array",
+                                "title":"¿Que hay que desarrollar?",
+                                "enum":['appandroid','appios','web','webmultiplatform','Backend','mobilegame','virtualreality', 'landingpage']
+                            },
+                            "appreference": {
+                                "type":"string",
+                                "title":"¿Existe alguna aplicación de referencia que el cliente haya pensado antes? Déjalo en blanco si no la hay."
+                            },
+                            "filesmockups": {
+                                "type":"select",
+                                "title":"¿Hay algún mockup, borrador, diseño de proyecto o similar?",
+                                "enum":["yes","no"]
+                            },
+                            "funcionalidades": {
+                                "type":"array",
+                                "title":"¿Que funcionalidades necesita la web?",
+                                "enum":['photogallery','pushnotifications','carritocompra','chat','sms','geolocation','calendar','socialnetworkshare','QR','bluetooth','beacons','micropay','loginothers','backend','augmentedreality','gamification','ads', 'virtualreality', 'messaging']
+                            },
+                            "idiomas": {
+                                "type":"array",
+                                "title":"¿En qué idiomas se desea desarrollar la aplicacón?",
+                                "enum":['en','es','it','fr','de']
+                            },
+                            "finaldate": {
+                                "type" : "string",
+                                "title":"¿Hay alguna fecha de entrega? ¿El cliente tiene algo de prisa? Déjalo en blanco si la respuesta es no."
+                            },
+                            "presupuesto": {
+                                "type":"string",
+                                "title":"¿De cuanto presupuesto dispone el cliente? (en Euros) Déjalo en blanco si lo desconoces."
+                            },
+                            "marketing": {
+                                "type":"select",
+                                "title":"Además del desarrollo, ¿El cliente necesita un plan de márketing para dar su app a conocer?",
+                                "enum":["yes","no"]
+                            },
+                            "idiomadfm": {
+                                "type":"select",
+                                "title":"¿En qué idioma quieres el DFM?",
+                                "enum":['en','es','it','fr','de']
+                            }
+                        }
+                    },
+                    "options": {
+                        "helper": "Esta pequeña aplicación servirá para ayudarte a definir la especificación funcional del proyecto",
+                        "fields": {
+                            "name": {
+                                "size": 25,
+                                "helper": "Por favor, introduce el nombre del proyecto",
+                                "placeholder": "Nombre del proyecto"
+                            },
+                            "clientdescription" : {
+                                "type": "textarea",
+                                "rows": 5,
+                                "cols": 40,
+                                "helper": "Una breve descripción del cliente. ¿ Como se llama? ¿Es una empresa? ¿ Que empresa es? ¿ Cual es su puesto en la empresa? ¿ Tiene fondos y dinero? ¿es una agencia de marketing o una agencia intermediaria?"
+                            },
+                            "projectdescription" : {
+                                "type": "textarea",
+                                "rows": 5,
+                                "cols": 40,
+                                "helper": "Por ejemplo, los propósitos de la app, tipo de público al que va dirigida la app... ¿de que se trata? ¿Es para vender al público o una app de gestión interna?"
+                            },
+                            "connectrequire" : {
+                                "type": "textarea",
+                                "rows": 5,
+                                "cols": 40,
+                                "helper": "¿Hay que conectarse a alguna API? ¿Hay una web ya hecha que gestiona los usuarios? ¿Debe obtener información de algún otro sitio? si es así, ¿que tipo de información debe obtener? ¿a que debe conectarse? (No es lo mismo un ERP o un CRM que a un Wordpress / Joomla / API )"
+                            },
+                            "developmentrequire" : {
+                                "type": "checkbox",
+                                "optionLabels":['App Android','App iOS','Web','App híbrida multiplataforma','Backend','Juego móvil','Realidad virtual / Realidad aumentada', "Landing Page"]
+                            },
+                            "appreference" : {
+                                "type": "text",
+                                "rows": 5,
+                                "cols": 40,
+                                "helper": "Por ejemplo airbnb, facebook, tinder, groopify... una url para que podamos ver que funcionalidad / calidad espera el cliente"
+                            },
+                            "filesmockups": {
+                                "type": "select",
+                                "noneLabel": "Selecciona una opción",
+                                "helper": "En caso afirmativo, por favor cárgalo a Yeeply Admin.",
+                                "optionLabels": ["Si, hay archivos que voy a incluir en el lead","No, el cliente solamente ha proporcionado una idea"]
+                            },
+                            "funcionalidades" : {
+                                "type": "checkbox",
+                                "rows": 5,
+                                "cols": 4,
+                                "optionLabels":['Galería de fotos / videos','Notificaciones push para comunicar novedades desde un panel de gestión','Carrito de la compra (tipo tienda o marketplace)','Sistema de chat para comunicación interna entre usuarios','Verificación de usuario por SMS','Geolocalización y mapas','Calendario de eventos','Compartir en redes sociales','Acceso a códigos QR','NFC / Bluetooth','Beacons','Micropagos dentro de la aplicación con el sistema de las Play store / Apple store / Windows Store ...','Login o registro mediante otras redes sociales','Panel de gestión (Backend, casi todos los proyectos necesitan uno de estos)','Realidad Aumentada','Gamificación','Integración de publicidad dentro de la aplicación', "Realidad virtual", "Sistema de mensajes de texto entre usuarios"]
+                            },
+                            "idiomas" : {
+                                "type": "checkbox",
+                                "optionLabels":['Inglés','Español',"Italiano","Francés","Alemán"]
+                            },
+                            "finaldate" : {
+                                "type": "text",
+								"helper": "De ser así, indica cuando más o menos necesitará estar disponible"
+                            },
+                            "presupuesto" : {
+                                "type": "text",
+                                "rows": 5,
+                                "cols": 40,
+                                "helper": "Indícalo siempre en euros"
+                            },
+                            "marketing": {
+                                "type": "select",
+                                "noneLabel": "Selecciona una opción",
+                                "helper": "Estrategia de marketing, SEO, ASO, SEM, optimización en motores de búsqueda tipo GOOGLE & BING",
+                                "optionLabels": ["Si","No"]
+                            },
+                            "idiomadfm" : {
+                                "type": "select",
+                                "noneLabel": "Selecciona una opción",
+                                "optionLabels":['Inglés','Español',"Italiano","Francés","Alemán"],
+                                "helper": "El idioma en el que se imprimirá <b>el Documento de funcionalidad mínima</b>"
+                            }
+                        },
+                        "form": {
+				            "buttons": {
+				                "add": {
+				                    "title": "Generar",
+				                    "click": function() {
+				                    	$('#descripcion').html("<br>");
+				                    	$('#comentarios').html("<br>");
+                                        $('#titulo').html("<br>");
+				                    	var value = this.getValue();
+				                    	var lang = value.idiomadfm;      
+				                    
+										$('#titulo').append(langstrings[lang]['title'] + value.name);
+										$('#titulo').append("<br><br>");
+										$('#comentarios').append(langstrings[lang]['clientdescription'] + value.clientdescription);
+										$('#comentarios').append("<br>");
+										$('#descripcion').append(langstrings[lang]['projectdescription']+ value.projectdescription);
+										$('#descripcion').append("<br>");
+										(value.connectrequire != null) ? $('#descripcion').append(langstrings[lang]['conexionesexternas'] + value.connectrequire + '<br>') : "" ;
+										$('#descripcion').append("<br>");
+
+										$('#descripcion').append(langstrings[lang]['developmentrequire']);
+										$('#descripcion').append("<br>");
+										value.developmentrequire.forEach(function(item,index){
+											console.log(item);$('#descripcion').append(langstrings[lang][item]);
+											$('#descripcion').append("<br>");
+										});
+										$('#descripcion').append("------------<br>");
+
+										$('#descripcion').append((value.connectrequire == 'yes') ? value.langstrings[lang]['yesfiles'] : langstrings[lang]['nofiles']);
+										$('#descripcion').append("<br>");
+
+										(value.appreference != null) ? $('#descripcion').append(langstrings[lang]['appreference'] + value.appreference + '<br>') : "" ;
+										$('#descripcion').append("<br>");
+
+										$('#descripcion').append(langstrings[lang]['funcionalidades']);
+										$('#descripcion').append("<br>");
+										value.funcionalidades.forEach(function(item,index){
+											console.log(item);$('#descripcion').append(langstrings[lang][item]);
+											$('#descripcion').append("<br>");
+										});
+										$('#descripcion').append("------------<br>");
+
+										$('#descripcion').append(langstrings[lang]['idiomas']);
+										$('#descripcion').append("<br>");
+										value.idiomas.forEach(function(item,index){
+											console.log(item);$('#descripcion').append(langstrings[lang][item]);
+											$('#descripcion').append("<br>");
+										});
+										$('#descripcion').append("------------<br><br><br><br>");
+
+										(value.finaldate != null) ? $('#comentarios').append(langstrings[lang]['finaldate'] + value.finaldate + '<br>') : "" ;
+										(value.presupuesto != null) ? $('#comentarios').append(langstrings[lang]['presupuesto'] + value.presupuesto + ' €<br>') : "" ;
+
+										(value.marketing == 'yes') ? $('#comentarios').append(langstrings[lang]['marketing'] + '<br>') : "" ;
+                                        $('#comentarios').append("<br><br>");
+
+
+										
+
+				                    }
+				                }
+				            }
+        				}
+                    },
+                    "postRender": function(control) {
+
+
+    				}   
+                });
+
+				
+            });
+        </script>
+        <h1 class="title">Copiar en Título de Proyecto</h1>
+        <div id="titulo"><br><br></div>
+        <h1 class="title">Copiar en Descripción de Proyecto</h1>
+        <div id="descripcion"><br><br></div>
+        <h1 class="title">Copiar como comentario en el proyecto </h1>
+        <div id="comentarios"><br><br></div>
+  </body>
+</html>
