@@ -16,7 +16,7 @@ langstrings['en']['appreference'] = 'Refferal app on which the project will be b
 langstrings['en']['yesfiles'] = 'In order to help in the description of the project, files will be loaded into yeeply platform.';
 langstrings['en']['nofiles'] = 'There are no additional files uploaded in the platform.';
 langstrings['en']['developmentrequire'] = "Projects to develop: ";
-langstrings['en']['funcionalidades'] = "Funcionalidades a desarrollar: ";
+langstrings['en']['funcionalidades'] = "Project funcionalities to be developed: ";
 
 langstrings['en']['photogallery'] = "Photo and video gallery.";
 langstrings['en']['pushnotifications'] = "Push notifications. ";
