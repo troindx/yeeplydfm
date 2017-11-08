@@ -205,7 +205,7 @@
 										});
 										$('#descripcion').append("------------<br>");
 
-										$('#descripcion').append((value.connectrequire == 'yes') ? value.langstrings[lang]['yesfiles'] : langstrings[lang]['nofiles']);
+										(value.filesmockups == 'yes') ? $('#descripcion').append(value.langstrings[lang]['yesfiles']) : $('#descripcion').append(langstrings[lang]['nofiles']);
 										$('#descripcion').append("<br>");
 
 										(value.appreference != null) ? $('#descripcion').append(langstrings[lang]['appreference'] + value.appreference + '<br>') : "" ;
